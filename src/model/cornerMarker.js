@@ -80,7 +80,7 @@ var CornerMarker = /** @class */ (function (_super) {
         ctx.lineTo(this.position.x + this.offset.x, this.position.y + this.offset.y);
         ctx.closePath();
         ctx.fillStyle =
-            this.cropperSettings.cropperDrawSettings.strokeColor ||
+            this.cropperSettings.cropperDrawSettings.cornerMarkerFillColor ||
                 "rgba(255,255,255,.7)";
         ctx.fill();
     };

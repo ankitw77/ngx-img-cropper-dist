@@ -5,6 +5,7 @@ import { Exif } from "./exif";
 import { CropPosition } from "./model/cropPosition";
 var ImageCropperComponent = /** @class */ (function () {
     function ImageCropperComponent(renderer) {
+        this.imageZoom = 1;
         this.cropPositionChange = new EventEmitter();
         this.onCrop = new EventEmitter();
         this.imageSet = new EventEmitter();
@@ -29,6 +30,7 @@ var ImageCropperComponent = /** @class */ (function () {
         if (!this.cropper) {
             this.cropper = new ImageCropper(this.settings);
         }
+        this.cropper.setImageZoom(this.imageZoom);
         this.cropper.prepare(canvas);
     };
     ImageCropperComponent.prototype.ngOnChanges = function (changes) {
@@ -48,6 +50,9 @@ var ImageCropperComponent = /** @class */ (function () {
             this.cropper.updateSettings(this.settings);
             this.image.image = this.cropper.getCroppedImageHelper().src;
             this.onCrop.emit(this.cropper.getCropBounds());
+        }
+        if (changes.imageZoom && !!this.cropper && this.cropper.setImageZoom) {
+            this.cropper.setImageZoom(changes.imageZoom.currentValue);
         }
     };
     ImageCropperComponent.prototype.ngOnDestroy = function () {
@@ -232,6 +237,7 @@ var ImageCropperComponent = /** @class */ (function () {
         'settings': [{ type: Input, args: ["settings",] },],
         'image': [{ type: Input, args: ["image",] },],
         'inputImage': [{ type: Input, args: ["inputImage",] },],
+        'imageZoom': [{ type: Input },],
         'cropper': [{ type: Input },],
         'cropPosition': [{ type: Input },],
         'cropPositionChange': [{ type: Output },],

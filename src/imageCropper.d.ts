@@ -8,6 +8,7 @@ import { Point } from './model/point';
 export declare class ImageCropper extends ImageCropperModel {
     private crop;
     private cropperSettings;
+    private imageZoom;
     private previousDistance;
     constructor(cropperSettings: CropperSettings);
     private static sign(x);
@@ -18,6 +19,7 @@ export declare class ImageCropper extends ImageCropperModel {
     prepare(canvas: HTMLCanvasElement): void;
     updateSettings(cropperSettings: CropperSettings): void;
     resizeCanvas(width: number, height: number, setImage?: boolean): void;
+    setImageZoom(scale: number): void;
     reset(): void;
     draw(ctx: CanvasRenderingContext2D): void;
     dragCenter(x: number, y: number, marker: DragMarker): void;

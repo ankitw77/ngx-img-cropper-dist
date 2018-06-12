@@ -19,6 +19,7 @@ var ImageCropper = /** @class */ (function (_super) {
     __extends(ImageCropper, _super);
     function ImageCropper(cropperSettings) {
         var _this = _super.call(this) || this;
+        _this.imageZoom = 1;
         var x = 0;
         var y = 0;
         var width = cropperSettings.width;
@@ -175,6 +176,9 @@ var ImageCropper = /** @class */ (function (_super) {
             this.setImage(this.srcImage);
         }
     };
+    ImageCropper.prototype.setImageZoom = function (scale) {
+        this.imageZoom = (scale && !isNaN(scale)) ? scale : 1;
+    };
     ImageCropper.prototype.reset = function () {
         this.setImage(undefined);
     };
@@ -194,14 +198,11 @@ var ImageCropper = /** @class */ (function (_super) {
                 h = this.canvasHeight;
                 w = this.canvasHeight / sourceAspect;
             }
+            w *= this.imageZoom;
+            h *= this.imageZoom;
             this.ratioW = w / this.srcImage.width;
             this.ratioH = h / this.srcImage.height;
-            if (canvasAspect < sourceAspect) {
-                this.drawImageIOSFix(ctx, this.srcImage, 0, 0, this.srcImage.width, this.srcImage.height, this.buffer.width / 2 - w / 2, 0, w, h);
-            }
-            else {
-                this.drawImageIOSFix(ctx, this.srcImage, 0, 0, this.srcImage.width, this.srcImage.height, 0, this.buffer.height / 2 - h / 2, w, h);
-            }
+            this.drawImageIOSFix(ctx, this.srcImage, 0, 0, this.srcImage.width, this.srcImage.height, (this.buffer.width - w) / 2, (this.buffer.height - h) / 2, w, h);
             this.buffer.getContext('2d')
                 .drawImage(this.canvas, 0, 0, this.canvasWidth, this.canvasHeight);
             ctx.lineWidth = this.cropperSettings.cropperDrawSettings.strokeWidth;
@@ -595,6 +596,8 @@ var ImageCropper = /** @class */ (function (_super) {
             h = this.canvas.height;
             w = this.canvas.height / sourceAspect;
         }
+        w = (w * this.imageZoom > this.canvas.width) ? this.canvas.width : w * this.imageZoom;
+        h = (h * this.imageZoom > this.canvas.height) ? this.canvas.height : h * this.imageZoom;
         this.minXClamp = this.canvas.width / 2 - w / 2;
         this.minYClamp = this.canvas.height / 2 - h / 2;
         this.maxXClamp = this.canvas.width / 2 + w / 2;
@@ -677,6 +680,8 @@ var ImageCropper = /** @class */ (function (_super) {
         var cropAspect = cropBounds.height / cropBounds.width;
         var cX = this.canvas.width / 2;
         var cY = this.canvas.height / 2;
+        w *= this.imageZoom;
+        h *= this.imageZoom;
         if (cropAspect > sourceAspect) {
             var imageH = Math.min(w * sourceAspect, h);
             var cropW = imageH / cropAspect;
@@ -771,6 +776,8 @@ var ImageCropper = /** @class */ (function (_super) {
                     w = this.canvas.width;
                 }
             }
+            w *= this.imageZoom;
+            h *= this.imageZoom;
             this.ratioW = w / this.srcImage.width;
             this.ratioH = h / this.srcImage.height;
             var offsetH = (this.buffer.height - h) / 2 / this.ratioH;

@@ -53,6 +53,7 @@ var ImageCropperComponent = /** @class */ (function () {
         }
         if (changes.imageZoom && !!this.cropper && this.cropper.setImageZoom) {
             this.cropper.setImageZoom(changes.imageZoom.currentValue);
+            this.cropper.redrawImage();
         }
     };
     ImageCropperComponent.prototype.ngOnDestroy = function () {

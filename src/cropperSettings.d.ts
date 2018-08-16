@@ -26,6 +26,7 @@ export interface ICropperSettings {
     compressRatio?: number;
     rounded?: boolean;
     keepAspect?: boolean;
+    showFullCropInitial?: boolean;
 }
 export declare class CropperSettings implements ICropperSettings {
     canvasWidth: number;
@@ -52,6 +53,7 @@ export declare class CropperSettings implements ICropperSettings {
     cropOnResize: boolean;
     preserveSize: boolean;
     compressRatio: number;
+    showFullCropInitial: boolean;
     private _rounded;
     private _keepAspect;
     constructor(settings?: ICropperSettings);

@@ -689,7 +689,7 @@ var ImageCropper = /** @class */ (function (_super) {
         h = (h * this.imageZoom > this.canvasHeight) ? this.canvasHeight : h * this.imageZoom;
         if (cropAspect > sourceAspect) {
             var imageH = Math.min(w * sourceAspect, h);
-            var cropW = imageH / cropAspect;
+            var cropW = (this.cropperSettings.showFullCropInitial) ? Math.min(h / sourceAspect, w) : imageH / cropAspect;
             tlPos = PointPool.instance.borrow(cX - cropW / 2, cY + imageH / 2);
             trPos = PointPool.instance.borrow(cX + cropW / 2, cY + imageH / 2);
             blPos = PointPool.instance.borrow(cX - cropW / 2, cY - imageH / 2);
@@ -697,7 +697,7 @@ var ImageCropper = /** @class */ (function (_super) {
         }
         else {
             var imageW = Math.min(h / sourceAspect, w);
-            var cropH = imageW * cropAspect;
+            var cropH = (this.cropperSettings.showFullCropInitial) ? Math.min(w * sourceAspect, h) : imageW * cropAspect;
             tlPos = PointPool.instance.borrow(cX - imageW / 2, cY + cropH / 2);
             trPos = PointPool.instance.borrow(cX + imageW / 2, cY + cropH / 2);
             blPos = PointPool.instance.borrow(cX - imageW / 2, cY - cropH / 2);

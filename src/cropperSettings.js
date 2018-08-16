@@ -21,6 +21,7 @@ var CropperSettings = /** @class */ (function () {
         this.cropOnResize = true;
         this.preserveSize = false;
         this.compressRatio = 1.0;
+        this.showFullCropInitial = false;
         this._rounded = false;
         this._keepAspect = true;
         if (typeof settings === "object") {
